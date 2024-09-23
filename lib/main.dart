@@ -113,6 +113,7 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
+      'Login': const LoginWidget(),
       'Tasks': const TasksWidget(),
       'CompletedTasks': const CompletedTasksWidget(),
     };
@@ -133,6 +134,14 @@ class _NavBarPageState extends State<NavBarPage> {
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.logout,
+              size: 30.0,
+            ),
+            label: 'Home',
+            tooltip: '',
+          ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.list_sharp,
