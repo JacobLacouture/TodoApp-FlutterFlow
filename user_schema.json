@@ -1,0 +1,42 @@
+{
+    "$id": "https://example.com/users-schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Users Schema",
+    "type": "object",
+    "properties": {
+      "users": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "birthdate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "created_time": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "display_name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "phone_number": {
+              "type": "string",
+              "pattern": "^[0-9]{10}$"
+            },
+            "uid": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{20}$"
+            }
+          },
+          "required": ["birthdate", "created_time", "display_name", "email", "phone_number", "uid"]
+        }
+      }
+    },
+    "required": ["users"]
+  }
+  
