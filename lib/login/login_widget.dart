@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -459,6 +460,23 @@ class _LoginWidgetState extends State<LoginWidget>
                                               .asValidator(context),
                                         ),
                                       ),
+                                      if ((_model.apiResultvix?.succeeded ??
+                                              true) &&
+                                          loggedIn)
+                                        Align(
+                                          alignment:
+                                              const AlignmentDirectional(0.0, 0.0),
+                                          child: Text(
+                                            'Check your Email for a welcome message!',
+                                            textAlign: TextAlign.center,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Inter',
+                                                  letterSpacing: 0.0,
+                                                ),
+                                          ),
+                                        ),
                                     ].divide(const SizedBox(height: 12.0)),
                                   ),
                                 ),
@@ -743,6 +761,7 @@ class _LoginWidgetState extends State<LoginWidget>
                         if (_model.tabBarCurrentIndex == 0)
                           FFButtonWidget(
                             onPressed: () async {
+                              var shouldSetState = false;
                               if (_model.formKey2.currentState == null ||
                                   !_model.formKey2.currentState!.validate()) {
                                 return;
@@ -781,8 +800,26 @@ class _LoginWidgetState extends State<LoginWidget>
                                     createdTime: getCurrentTimestamp,
                                   ));
 
+                              _model.apiResultvix =
+                                  await SendEmailToUserCall.call(
+                                to: _model.signupEmailTextController.text,
+                                subject: 'Welcome!',
+                                text: 'Welcome to the ToDo App!!',
+                              );
+
+                              shouldSetState = true;
+                              if ((_model.apiResultvix?.succeeded ?? true)) {
+                                await Future.delayed(
+                                    const Duration(milliseconds: 5000));
+                              } else {
+                                if (shouldSetState) safeSetState(() {});
+                                return;
+                              }
+
                               context.goNamedAuth(
                                   'Onboarding', context.mounted);
+
+                              if (shouldSetState) safeSetState(() {});
                             },
                             text: 'Sign up',
                             options: FFButtonOptions(
